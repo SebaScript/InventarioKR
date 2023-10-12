@@ -60,6 +60,9 @@
     <div class="box">
       <span id="total_precio"></span>
     </div>
+    <div class="box">
+      <span id="bodega_mas_llena"></span>
+    </div>
     <div class="modal" id="addModal">
         <div class="modal-background"></div>
         <div class="modal-card">
@@ -223,6 +226,34 @@
             document.getElementById('total_articulos').innerHTML = 'Cantidad total de artículos guardados: ' + total_articulos;
         })
 
+        // Escucha los cambios en los datos de los artículos
+        onValue(articlesRef, (snapshot) => {
+            // Obtiene todos los artículos
+            var articles = snapshot.val();
+
+            // Crea un objeto para almacenar las cantidades por bodega
+            var bodegas = {};
+
+            // Calcula la suma de todas las cantidades por bodega
+            for (var key in articles) {
+                var bodega = articles[key].bodega;
+                var cantidad = articles[key].cantidad;
+
+                if (bodegas[bodega]) {
+                    bodegas[bodega] += cantidad;
+                } else {
+                    bodegas[bodega] = cantidad;
+                }
+            }
+
+            // Encuentra la bodega con la mayor cantidad
+            var bodegaMasLlena = Object.keys(bodegas).reduce((a, b) => bodegas[a] > bodegas[b] ? a : b);
+
+            // Actualiza el elemento con la bodega más llena y su cantidad
+            document.getElementById('bodega_mas_llena').innerHTML = 'Bodega más llena: ' + bodegaMasLlena + ' con ' + bodegas[bodegaMasLlena] + ' productos.';
+        })
+
+
         onValue(articlesRef, (snapshot) => {
             // Obtiene todos los artículos
             var articles = snapshot.val();
@@ -236,7 +267,7 @@
             // Actualiza el elemento con el total
             document.getElementById('total_precio').innerHTML = 'Valor total de artículos en inventario: $' + total_valor;
         })
-
+        
         onValue(articlesRef, (snapshot) => {
           // Obtiene todos los artículos
           var articles = snapshot.val();
