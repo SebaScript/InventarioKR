@@ -3,187 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <title>Iniciar sesion</title>
+    <link rel="stylesheet" href="styles/login.css">
 </head>
 <body>
-    <header><nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="/">
-            <img src="img/pruebalogo-removebg-preview.png">
-            <h1>Inventario Kalle Rosa</h1>
-          </a>
-          <a href="reg.html">
-            <button class="button is-success">Registrar Usuario</button>
-          </a>
-        </div>
-      </nav>
-    </header>
-    <main class="main-content">
-        <div class="crud-container">
-            <div class="crud-header">
-                <h1>Artículos registrados</h1>
-                <button class="button is-success" id="openAddModal">Añadir artículo</button>
+    <div class="container">
+        <h2>Iniciar sesión</h2>
+        <form id="inicioSesion">
+            <div class="form-group">
+                <label for="identificacion">Número de Identificación:</label>
+                <input type="text" id="identificacion" name="identificacion" required>
             </div>
-            <table id="articleTable" class="table">
-                <thead>
-                  <tr>
-                    <th>Referencia</th>
-                    <th>Categoria</th>
-                    <th>Precio</th>
-                    <th>Color</th>
-                    <th>Talla</th>
-                    <th>Bodega</th>
-                    <th>Cantidad</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>12132</th>
-                    <td>Baggy Jean</td>
-                    <td>280000</td>
-                    <td>Negro</td>
-                    <td>34</td>
-                    <td>Principal</td>
-                    <td>25</td>
-                    <td>
-                        <button id = "botonEditar" class="button is-warning">Editar</button>
-                        <button id = "botonEliminar" class="button is-danger">Eliminar</button>
-                    </td>
-                    </tr>
-                </tbody>
-              </table>
-        </div>
-    </main>
-    <div class="box">
-      <span id="total_articulos"></span>
+            <div class="form-group">
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Ingresar">
+            </div>
+        </form>
     </div>
-    <div class="box">
-      <span id="total_precio"></span>
-    </div>
-    <div class="box">
-      <span id="bodega_mas_llena"></span>
-    </div>
-    <div class="modal" id="addModal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Añadir nuevo artículo</p>
-            <button class="delete" aria-label="close" id="closeAddModal"></button>
-          </header>
-          <section class="modal-card-body">
-            <form id="addArticleForm">
-                <div class="field">
-                    <label class="label">Referencia</label>
-                    <div class="control">
-                      <input class="input" type="text" name = "referencia" placeholder="Ingresa la referencia">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Categoria</label>
-                    <div class="control">
-                      <input class="input" type="text" name = "categoria" placeholder="Ingresa la categoria">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Precio</label>
-                    <div class="control">
-                      <input class="input" type="number" name="precio" placeholder="Ingresa el precio">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Color</label>
-                    <div class="control">
-                      <input class="input" type="text" name="color" placeholder="Ingresa el color">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Talla</label>
-                    <div class="control">
-                      <input class="input" type="text" name="talla" placeholder="Ingresa la talla">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Bodega</label>
-                    <div class="control">
-                      <input class="input" type="text" name="bodega" placeholder="Ingresa la bodega">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Cantidad</label>
-                    <div class="control">
-                      <input class="input" type="number" name="cantidad" placeholder="Ingresa la cantidad">
-                    </div>
-                </div>
-          </section>
-          <footer class="modal-card-foot">
-            <button type="submit" class="button is-success">Guardar</button>
-            </form>
-          </footer>
-        </div>
-      </div>
-      <div class="modal" id="updateModal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Editar artículo</p>
-            <button class="delete" aria-label="close" id="closeAddModal"></button>
-          </header>
-          <section class="modal-card-body">
-            <form id="updateArticleForm">
-                <div class="field">
-                    <label class="label">Referencia</label>
-                    <div class="control">
-                      <input class="input" type="text" name = "nuevareferencia" placeholder="Ingresa la referencia">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Categoria</label>
-                    <div class="control">
-                      <input class="input" type="text" name = "nuevacategoria" placeholder="Ingresa la categoria">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Precio</label>
-                    <div class="control">
-                      <input class="input" type="number" name="nuevoprecio" placeholder="Ingresa el precio">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Color</label>
-                    <div class="control">
-                      <input class="input" type="text" name="nuevocolor" placeholder="Ingresa el color">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Talla</label>
-                    <div class="control">
-                      <input class="input" type="text" name="nuevatalla" placeholder="Ingresa la talla">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Bodega</label>
-                    <div class="control">
-                      <input class="input" type="text" name="nuevabodega" placeholder="Ingresa la bodega">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Cantidad</label>
-                    <div class="control">
-                      <input class="input" type="number" name="nuevacantidad" placeholder="Ingresa la cantidad">
-                    </div>
-                </div>
-          </section>
-          <footer class="modal-card-foot">
-            <button type="submit" class="button is-success">Guardar</button>
-            </form>
-          </footer>
-        </div>
-      </div>
-      <script type="module">
+    <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
-        import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+        import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
       
@@ -204,204 +48,52 @@
         const analytics = getAnalytics(app);
         const db = getDatabase();
 
-        var form = document.getElementById('addArticleForm');
-        var table = document.getElementById('articleTable');
-
-        const addArticleForm = document.getElementById("addArticleForm");
-
-        const articlesRef = ref(db, 'articulos');
-
-        // Escucha los cambios en los datos de los artículos
-        onValue(articlesRef, (snapshot) => {
-            // Obtiene todos los artículos
-            var articles = snapshot.val();
-
-            // Calcula la suma de todas las cantidades
-            var total_articulos = 0;
-            for (var key in articles) {
-                total_articulos += articles[key].cantidad;
-            }
-
-            // Actualiza el elemento con el total
-            document.getElementById('total_articulos').innerHTML = 'Cantidad total de artículos guardados: ' + total_articulos;
-        })
-
-        // Escucha los cambios en los datos de los artículos
-        onValue(articlesRef, (snapshot) => {
-            // Obtiene todos los artículos
-            var articles = snapshot.val();
-
-            // Crea un objeto para almacenar las cantidades por bodega
-            var bodegas = {};
-
-            // Calcula la suma de todas las cantidades por bodega
-            for (var key in articles) {
-                var bodega = articles[key].bodega;
-                var cantidad = articles[key].cantidad;
-
-                if (bodegas[bodega]) {
-                    bodegas[bodega] += cantidad;
-                } else {
-                    bodegas[bodega] = cantidad;
-                }
-            }
-
-            // Encuentra la bodega con la mayor cantidad
-            var bodegaMasLlena = Object.keys(bodegas).reduce((a, b) => bodegas[a] > bodegas[b] ? a : b);
-
-            // Actualiza el elemento con la bodega más llena y su cantidad
-            document.getElementById('bodega_mas_llena').innerHTML = 'Bodega más llena: ' + bodegaMasLlena + ' con ' + bodegas[bodegaMasLlena] + ' productos.';
-        })
-
-
-        onValue(articlesRef, (snapshot) => {
-            // Obtiene todos los artículos
-            var articles = snapshot.val();
-
-            // Calcula la suma de todas las cantidades
-            var total_valor = 0;
-            for (var key in articles) {
-                total_valor += articles[key].precio;
-            }
-
-            // Actualiza el elemento con el total
-            document.getElementById('total_precio').innerHTML = 'Valor total de artículos en inventario: $' + total_valor;
-        })
-        
-        onValue(articlesRef, (snapshot) => {
-          // Obtiene todos los artículos
-          var articles = snapshot.val();
-
-          // Obtiene una referencia a la tabla
-          var table = document.getElementById('articleTable');
-
-          // Limpia la tabla
-          while (table.rows.length > 1) {
-              table.deleteRow(1);
-          }
-
-          // Agrega una fila a la tabla para cada artículo
-          for (var key in articles) {
-              var article = articles[key];
-
-              // Crea una nueva fila en la tabla
-              var row = table.insertRow(-1);
-
-              // Crea las celdas en la fila y asigna los datos del artículo
-              row.insertCell(0).innerHTML = article.referencia;
-              row.insertCell(1).innerHTML = article.categoria;
-              row.insertCell(2).innerHTML = article.precio;
-              row.insertCell(3).innerHTML = article.color;
-              row.insertCell(4).innerHTML = article.talla;
-              row.insertCell(5).innerHTML = article.bodega;
-              row.insertCell(6).innerHTML = article.cantidad;
-
-            // Crea los botones de editar y eliminar
-            var botonEditar = document.createElement('button');
-            botonEditar.innerHTML = 'Editar';
-            botonEditar.className = 'button is-warning';
-
-            var botonEliminar = document.createElement('button');
-            botonEliminar.innerHTML = 'Eliminar';
-            botonEliminar.className = 'button is-danger';
-
-            // Agrega los botones a la última celda de la fila
-            var cell = row.insertCell(7);
-            cell.appendChild(botonEditar);
-            cell.appendChild(botonEliminar);
-
-            // Agrega un controlador de eventos 'click' al botón de editar
-            botonEditar.addEventListener('click', function() {
-                // Abre el modal
-                document.getElementById('updateModal').classList.add('is-active');
-
-                // Llena los campos del formulario en el modal con los datos del artículo
-                document.getElementsByName('nuevareferencia')[0].value = article.referencia;
-                document.getElementsByName('nuevacategoria')[0].value = article.categoria;
-                document.getElementsByName('nuevoprecio')[0].value = article.precio;
-                document.getElementsByName('nuevocolor')[0].value = article.color;
-                document.getElementsByName('nuevatalla')[0].value = article.talla;
-                document.getElementsByName('nuevabodega')[0].value = article.bodega;
-                document.getElementsByName('nuevacantidad')[0].value = article.cantidad;
-
-                // Agrega un controlador de eventos 'submit' al formulario en el modal para actualizar los datos en la base de datos
-                document.getElementById('updateArticleForm').addEventListener('submit', function(event) {
-                    event.preventDefault();
-
-                    // Obtiene los nuevos datos del formulario
-                    var newReferencia = document.getElementsByName('nuevareferencia')[0].value;
-                    var newCategoria = document.getElementsByName('nuevacategoria')[0].value;
-                    var newPrecio = parseInt(document.getElementsByName('nuevoprecio')[0].value);
-                    var newColor = document.getElementsByName('nuevocolor')[0].value;
-                    var newTalla = document.getElementsByName('nuevatalla')[0].value;
-                    var newBodega = document.getElementsByName('nuevabodega')[0].value;
-                    var newCantidad = parseFloat(document.getElementsByName('nuevacantidad')[0].value);
-
-                    // Actualiza los datos en la base de datos
-                    const updateRef = ref(db, 'articulos/' + newReferencia);
-                    set(updateRef, {
-                        referencia: newReferencia,
-                        categoria: newCategoria,
-                        precio: newPrecio,
-                        color: newColor,
-                        talla: newTalla,
-                        bodega: newBodega,
-                        cantidad: newCantidad
-                    });
-
-                    // Actualiza los datos en la tabla
-                    row.cells[0].innerHTML = newReferencia;
-                    row.cells[1].innerHTML = newCategoria;
-                    row.cells[2].innerHTML = newPrecio;
-                    row.cells[3].innerHTML = newColor;
-                    row.cells[4].innerHTML = newTalla;
-                    row.cells[5].innerHTML = newBodega;
-                    row.cells[6].innerHTML = newCantidad;
-
-                    // Cierra el modal
-                    document.getElementById('updateModal').classList.remove('is-active');
-                });
-            });
-            botonEliminar.addEventListener('click', function() {
-              // Elimina los datos de la base de datos
-              const deleteRef = ref(db, 'articulos/' + article.referencia);
-              remove(deleteRef);
-
-              // Elimina la fila de la tabla
-              row.parentNode.removeChild(row);
-          });
-        }
-      });
-        // Escucha el evento 'submit' del formulario
-        document.getElementById('addArticleForm').addEventListener('submit', function(event) {
+        document.getElementById('inicioSesion').addEventListener('submit', function(event) {
             event.preventDefault();
 
             // Obtiene los datos del formulario
-            var referencia = document.getElementsByName('referencia')[0].value;
-            var categoria = document.getElementsByName('categoria')[0].value;
-            var precio = parseFloat(document.getElementsByName('precio')[0].value);
-            var color = document.getElementsByName('color')[0].value;
-            var talla = document.getElementsByName('talla')[0].value;
-            var bodega = document.getElementsByName('bodega')[0].value;
-            var cantidad = parseInt(document.getElementsByName('cantidad')[0].value);
+            var identificacion = document.getElementById('identificacion').value;
+            var contrasena = document.getElementById('contrasena').value;
 
-            // Crea una referencia a la ubicación donde se guardarán los datos
-            const articleRef = ref(db, 'articulos/' + referencia);
+            if (identificacion == "admin" && contrasena == "admin123") {
+                window.location.href = "admin.html"
+                return; // Si es admin, termina aquí
+            }
 
-            // Agrega los datos a la base de datos
-            set(articleRef, {
-                referencia: referencia,
-                categoria: categoria,
-                precio: precio,
-                color: color,
-                talla: talla,
-                bodega: bodega,
-                cantidad: cantidad
+            // Crea una referencia a la ubicación donde se encuentran los datos del usuario
+            const userRef = ref(db, 'usuarios/' + identificacion);
+
+            // Obtiene los datos del usuario
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    var userData = snapshot.val();
+                    if (userData.contrasena === contrasena) {
+                        console.log('Inicio de sesión exitoso!');
+
+                        // Verifica el rol del usuario y redirige según corresponda
+                        switch(userData.rol) {
+                            case 'administrador':
+                                window.location.href = "admin.html";
+                                break;
+                            case 'vendedor':
+                                window.location.href = "seller.html";
+                                break;
+                            case 'encargado_bodega':
+                                window.location.href = "employee.html";
+                                break;
+                        }
+
+                    } else {
+                        alert("Usuario o contraseña incorrectos")
+                    }
+                } else {
+                    alert('El usuario no existe.');
+                }
+            }).catch((error) => {
+                console.error(error);
             });
-
-          document.getElementById('addModal').classList.remove('is-active');
         });
-      </script>
-      <script src="app.js"></script>
+
+    </script>
 </body>
 </html>

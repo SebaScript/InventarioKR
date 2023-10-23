@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <!-- Contenedor para el logo y el nombre -->
+                <div class="left-container">
+                    <a class="navbar-item" href="/">
+                        <img src="img/pruebalogo-removebg-preview.png">
+                        <h1>Inventario Kalle Rosa</h1>
+                    </a>
+                </div>
+
+                <!-- Contenedor para los botones -->
+                <div class="right-container">
+                    <button id="modo-oscuro" class="button is-dark">Modo oscuro</button>
+                    <button id="inf-sistema" class="button is-ghost">Información del sistema</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <form id="searchForm">
+      <label for="searchType">Buscar por:</label>
+      <select id="searchType">
+          <option value="referencia">Referencia</option>
+          <option value="talla">Talla</option>
+          <option value="categoria">Categoría</option>
+          <option value="color">Color</option>
+      </select>
+      
+      <div>
+        <input type="text" id="searchInput" placeholder="Ingresa tu búsqueda...">
+        <button type="submit">Buscar</button>
+      </div>
+    </form>
+    <main class="main-content">
+        <div class="crud-container">
+            <div class="crud-header">
+                <h1>Artículos registrados</h1>
+                <button class="button is-success" id="openAddModal">Añadir artículo</button>
+            </div>
+            <table id="articleTable" class="table">
+                <thead>
+                  <tr>
+                    <th>Referencia</th>
+                    <th>Categoria</th>
+                    <th>Precio</th>
+                    <th>Color</th>
+                    <th>Talla</th>
+                    <th>Bodega</th>
+                    <th>Cantidad</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>12132</th>
+                    <td>Baggy Jean</td>
+                    <td>280000</td>
+                    <td>Negro</td>
+                    <td>34</td>
+                    <td>Principal</td>
+                    <td>25</td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+    </main>
+    <div class="box">
+      <span id="total_articulos"></span>
+    </div>
+    <div class="box">
+      <span id="total_precio"></span>
+    </div>
+    <div class="box">
+      <span id="bodega_mas_llena"></span>
+    </div>
+      <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+        import { getDatabase, ref, set, onValue, remove, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyDFjlX0aORMj7g3K4mp5CejHkXGNbkYXSA",
+          authDomain: "inventario-kr.firebaseapp.com",
+          projectId: "inventario-kr",
+          storageBucket: "inventario-kr.appspot.com",
+          messagingSenderId: "239589442494",
+          appId: "1:239589442494:web:1f53aa3e47b17ebe7cefef",
+          measurementId: "G-7QM6M2CTNE"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase();
+
+        var form = document.getElementById('addArticleForm');
+        var table = document.getElementById('articleTable');
+
+        const addArticleForm = document.getElementById("addArticleForm");
+
+        const articlesRef = ref(db, 'articulos');
+
+        document.getElementById("modo-oscuro").addEventListener("click", function() {
+            const body = document.body;
+
+            if (body.classList.contains("dark-mode")) {
+                body.classList.remove("dark-mode");
+            } else {
+                body.classList.add("dark-mode");
+            }
+        });
+
+        document.getElementById("inf-sistema").addEventListener("click", function() {
+          alert("Sistema de inventario Kalle Rosa Jeans\nDesarrollado por: Deportivo Independiente Nacional\nv0.8.1")
+        })
+
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            const searchType = document.getElementById('searchType').value;
+            const searchValue = document.getElementById('searchInput').value;
+
+            searchInFirebase(searchType, searchValue);
+        });
+
+        function searchInFirebase(searchType, searchValue) {
+            const articleTableBody = document.querySelector('#articleTable tbody');
+            articleTableBody.innerHTML = ''; // Limpia los resultados anteriores
+
+            const articlesRef = ref(db, 'articulos');
+            const searchQuery = query(articlesRef, orderByChild(searchType), equalTo(searchValue));
+
+            onValue(searchQuery, (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val();
+
+                    const row = document.createElement('tr');
+
+                    const referenceCell = document.createElement('th');
+                    referenceCell.innerText = data.referencia;
+                    row.appendChild(referenceCell);
+
+                    const fields = ['categoria', 'precio', 'color', 'talla', 'bodega', 'cantidad'];
+                    fields.forEach(field => {
+                        const cell = document.createElement('td');
+                        cell.innerText = data[field];
+                        row.appendChild(cell);
+                    });
+
+                    const actionCell = document.createElement('td');
+
+                    articleTableBody.appendChild(row);
+                });
+            });
+        }
+
+        // Escucha los cambios en los datos de los artículos
+        onValue(articlesRef, (snapshot) => {
+            // Obtiene todos los artículos
+            var articles = snapshot.val();
+
+            // Calcula la suma de todas las cantidades
+            var total_articulos = 0;
+            for (var key in articles) {
+                total_articulos += articles[key].cantidad;
+            }
+
+            // Actualiza el elemento con el total
+            document.getElementById('total_articulos').innerHTML = 'Cantidad total de artículos guardados: ' + total_articulos;
+        })
+
+        // Escucha los cambios en los datos de los artículos
+        onValue(articlesRef, (snapshot) => {
+            // Obtiene todos los artículos
+            var articles = snapshot.val();
+
+            // Crea un objeto para almacenar las cantidades por bodega
+            var bodegas = {};
+
+            // Calcula la suma de todas las cantidades por bodega
+            for (var key in articles) {
+                var bodega = articles[key].bodega;
+                var cantidad = articles[key].cantidad;
+
+                if (bodegas[bodega]) {
+                    bodegas[bodega] += cantidad;
+                } else {
+                    bodegas[bodega] = cantidad;
+                }
+            }
+
+            // Encuentra la bodega con la mayor cantidad
+            var bodegaMasLlena = Object.keys(bodegas).reduce((a, b) => bodegas[a] > bodegas[b] ? a : b);
+
+            // Actualiza el elemento con la bodega más llena y su cantidad
+            document.getElementById('bodega_mas_llena').innerHTML = 'Bodega más llena: ' + bodegaMasLlena + ' con ' + bodegas[bodegaMasLlena] + ' productos.';
+        })
+
+
+        onValue(articlesRef, (snapshot) => {
+            // Obtiene todos los artículos
+            var articles = snapshot.val();
+
+            // Calcula la suma de todas las cantidades
+            var total_valor = 0;
+            for (var key in articles) {
+                total_valor += articles[key].precio;
+            }
+
+            // Actualiza el elemento con el total
+            document.getElementById('total_precio').innerHTML = 'Valor total de artículos en inventario: $' + total_valor;
+        })
+        
+        onValue(articlesRef, (snapshot) => {
+          // Obtiene todos los artículos
+          var articles = snapshot.val();
+
+          // Obtiene una referencia a la tabla
+          var table = document.getElementById('articleTable');
+
+          // Limpia la tabla
+          while (table.rows.length > 1) {
+              table.deleteRow(1);
+          }
+
+          // Agrega una fila a la tabla para cada artículo
+          for (var key in articles) {
+              var article = articles[key];
+
+              // Crea una nueva fila en la tabla
+              var row = table.insertRow(-1);
+
+              // Crea las celdas en la fila y asigna los datos del artículo
+              row.insertCell(0).innerHTML = article.referencia;
+              row.insertCell(1).innerHTML = article.categoria;
+              row.insertCell(2).innerHTML = article.precio;
+              row.insertCell(3).innerHTML = article.color;
+              row.insertCell(4).innerHTML = article.talla;
+              row.insertCell(5).innerHTML = article.bodega;
+              row.insertCell(6).innerHTML = article.cantidad;
+        }
+      });
+        // Escucha el evento 'submit' del formulario
+        document.getElementById('addArticleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Obtiene los datos del formulario
+            var referencia = document.getElementsByName('referencia')[0].value;
+            var categoria = document.getElementsByName('categoria')[0].value;
+            var precio = parseFloat(document.getElementsByName('precio')[0].value);
+            var color = document.getElementsByName('color')[0].value;
+            var talla = document.getElementsByName('talla')[0].value;
+            var bodega = document.getElementsByName('bodega')[0].value;
+            var cantidad = parseInt(document.getElementsByName('cantidad')[0].value);
+
+            // Crea una referencia a la ubicación donde se guardarán los datos
+            const articleRef = ref(db, 'articulos/' + referencia);
+
+            // Agrega los datos a la base de datos
+            set(articleRef, {
+                referencia: referencia,
+                categoria: categoria,
+                precio: precio,
+                color: color,
+                talla: talla,
+                bodega: bodega,
+                cantidad: cantidad
+            });
+
+          document.getElementById('addModal').classList.remove('is-active');
+          this.reset();
+        });
+      </script>
+      <script src="app.js"></script>
+</body>
+</html>

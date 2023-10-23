@@ -8,7 +8,6 @@
 }
 
 .main-content{
-    height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +16,7 @@
 .crud-container{
     width: 70%;
     border: 1px solid black;
-    padding: 2rem 5rem;
+    padding: 2rem 2rem;
     overflow: auto;
     box-shadow: 0 0 1rem 0 rgba(0,0,0,0.3);
     border-radius: 0.5rem;
@@ -45,4 +44,199 @@
 
     margin: 2px;
 
+}
+
+body, div, ul, li, h1, h2, h3, h4, h5, h6, p, a, span, button {
+    background-color: white;
+    color: black;
+}
+
+.navbar {
+    background-color: #f5f5f5;
+}
+
+body.dark-mode, 
+body.dark-mode div, 
+body.dark-mode ul, 
+body.dark-mode li,
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode h6, 
+body.dark-mode p, 
+body.dark-mode a, 
+body.dark-mode span,
+body.dark-mode table, 
+body.dark-mode th, 
+body.dark-mode td, 
+body.dark-mode tr, 
+body.dark-mode thead, 
+body.dark-mode tbody, 
+body.dark-mode tfoot {
+    background-color: #333; /* o cualquier otro color que prefieras para las tablas */
+    color: white;
+    border-color: #444; /* Este es para los bordes de las celdas */
+} 
+body.dark-mode button {
+    background-color: #222;
+    color: white;
+}
+
+body.dark-mode .navbar {
+    background-color: #333;
+}
+
+body.dark-mode .table {
+    background-color: #333;
+}
+
+body.dark-mode a {
+    color: white;
+    text-decoration-color: white; /* En caso de que los enlaces estén subrayados */
+}
+
+body.dark-mode button {
+    border-color: white; /* En caso de que los botones tengan bordes */
+}
+
+
+body.dark-mode .modal-background {
+    background-color: rgba(0, 0, 0, 0.86); /* Un fondo negro semi-transparente para el modal */
+}
+
+body.dark-mode .modal-card {
+    background-color: #333; /* Un gris oscuro para el fondo del modal */
+    color: white;
+}
+
+body.dark-mode .modal-card-head,
+body.dark-mode .modal-card-foot {
+    background-color: #444; /* Un gris un poco más oscuro para el header y footer del modal */
+    color: white;
+}
+
+body.dark-mode .modal-card-title {
+    color: white; /* Color blanco para el título */
+}
+
+body.dark-mode .modal-card-body{
+    background-color: #222;
+}
+
+body.dark-mode .input, 
+body.dark-mode .label {
+    color: white; /* Color blanco para el texto de las etiquetas y el input */
+}
+
+body.dark-mode .input {
+    background-color: #444; /* Un gris oscuro para los inputs */
+    border-color: #555; /* Un color un poco más claro para el borde */
+}
+
+body.dark-mode .button.is-success {
+    background-color: #28a745; /* Color verde para el botón de éxito */
+    color: white; /* Color blanco para el texto del botón */
+}
+
+body.dark-mode #searchForm {
+    background-color: #3a3a3a;
+    color: #e1e1e1;
+}
+
+body.dark-mode #searchForm select,
+body.dark-mode #searchForm input {
+    background-color: #4a4a4a;
+    color: #e1e1e1;
+    border-color: #5a5a5a;
+}
+
+body.dark-mode #searchForm select:focus,
+body.dark-mode #searchForm input:focus {
+    border-color: #007bff;
+}
+
+body.dark-mode #searchForm button {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+body.dark-mode #searchForm button:hover {
+    background-color: #0056b3;
+}
+
+.navbar-brand {
+    display: flex;
+    justify-content: space-between; /* Separa los dos contenedores principales */
+    align-items: center; /* Alinea verticalmente los elementos en el centro */
+    width: 100%; 
+}
+
+/* Estilo para el contenedor izquierdo (logo y nombre) */
+.left-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo para el contenedor derecho (botones) */
+.right-container {
+    display: flex;
+    gap: 10px; /* Separación entre botones */
+}
+
+/* Estilo específico para los botones para ajustar márgenes si es necesario */
+.button {
+    margin: 0;
+}
+
+
+#searchForm {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 50px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#searchForm label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#searchForm select,
+#searchForm input,
+#searchForm button {
+    margin-top: 10px;
+}
+
+#searchForm select,
+#searchForm input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#searchForm select:focus,
+#searchForm input:focus {
+    border-color: #007bff;
+}
+
+#searchForm button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#searchForm button:hover {
+    background-color: #0056b3;
 }
