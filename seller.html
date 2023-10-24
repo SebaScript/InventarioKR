@@ -76,6 +76,8 @@
             +57 3981764902
             <br>
             correo@gcorreo.com
+            <br>
+            <a href="https://dxtcapital.com/wp-content/uploads/Logo-2.jpg"><u>Instagram</u></a>
         </p>
     </footer>
       <script type="module">
@@ -193,36 +195,6 @@
               row.insertCell(6).innerHTML = article.cantidad;
         }
       });
-        // Escucha el evento 'submit' del formulario
-        document.getElementById('addArticleForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            // Obtiene los datos del formulario
-            var referencia = document.getElementsByName('referencia')[0].value;
-            var categoria = document.getElementsByName('categoria')[0].value;
-            var precio = parseFloat(document.getElementsByName('precio')[0].value);
-            var color = document.getElementsByName('color')[0].value;
-            var talla = document.getElementsByName('talla')[0].value;
-            var bodega = document.getElementsByName('bodega')[0].value;
-            var cantidad = parseInt(document.getElementsByName('cantidad')[0].value);
-
-            // Crea una referencia a la ubicación donde se guardarán los datos
-            const articleRef = ref(db, 'articulos/' + referencia);
-
-            // Agrega los datos a la base de datos
-            set(articleRef, {
-                referencia: referencia,
-                categoria: categoria,
-                precio: precio,
-                color: color,
-                talla: talla,
-                bodega: bodega,
-                cantidad: cantidad
-            });
-
-          document.getElementById('addModal').classList.remove('is-active');
-          this.reset();
-        });
       </script>
       <script src="app.js"></script>
 </body>
