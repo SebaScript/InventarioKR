@@ -360,54 +360,23 @@
             // Actualiza el elemento con el total
             document.getElementById('total_precio').innerHTML = 'Valor total de artículos en inventario: $' + total_valor;
         })
-        
-        onValue(articlesRef, (snapshot) => {
-          // Obtiene todos los artículos
-          var articles = snapshot.val();
 
-          // Obtiene una referencia a la tabla
-          var table = document.getElementById('articleTable');
+        function createDeleteHandler(article, row) {
+            return function() {
+                // Crea una referencia a la ubicación donde se encuentran los datos del artículo
+                const deleteRef = ref(db, 'articulos/' + article.referencia);
 
-          // Limpia la tabla
-          while (table.rows.length > 1) {
-              table.deleteRow(1);
-          }
+                // Elimina los datos de la base de datos
+                remove(deleteRef);
 
-          // Agrega una fila a la tabla para cada artículo
-          for (var key in articles) {
-              var article = articles[key];
+                // Elimina la fila de la tabla
+                row.parentNode.removeChild(row);
+            };
+        }
 
-              // Crea una nueva fila en la tabla
-              var row = table.insertRow(-1);
-
-              // Crea las celdas en la fila y asigna los datos del artículo
-              row.insertCell(0).innerHTML = article.referencia;
-              row.insertCell(1).innerHTML = article.categoria;
-              row.insertCell(2).innerHTML = article.precio;
-              row.insertCell(3).innerHTML = article.color;
-              row.insertCell(4).innerHTML = article.talla;
-              row.insertCell(5).innerHTML = article.bodega;
-              row.insertCell(6).innerHTML = article.cantidad;
-
-            // Crea los botones de editar y eliminar
-            var botonEditar = document.createElement('button');
-            botonEditar.innerHTML = 'Editar';
-            botonEditar.className = 'button is-warning';
-
-            var botonEliminar = document.createElement('button');
-            botonEliminar.innerHTML = 'Eliminar';
-            botonEliminar.className = 'button is-danger';
-
-            // Agrega los botones a la última celda de la fila
-            var cell = row.insertCell(7);
-            cell.appendChild(botonEditar);
-            cell.appendChild(botonEliminar);
-
-            // Agrega un controlador de eventos 'click' al botón de editar
-            botonEditar.addEventListener('click', function() {
-                // Abre el modal
-                document.getElementById('updateModal').classList.add('is-active');
-
+        function createUpdateHandler(article, row) {
+            return function() {
+              document.getElementById('updateModal').classList.add('is-active');
                 // Llena los campos del formulario en el modal con los datos del artículo
                 document.getElementsByName('nuevareferencia')[0].value = article.referencia;
                 document.getElementsByName('nuevacategoria')[0].value = article.categoria;
@@ -454,15 +423,53 @@
                     // Cierra el modal
                     document.getElementById('updateModal').classList.remove('is-active');
                 });
-            });
-            botonEliminar.addEventListener('click', function() {
-              // Elimina los datos de la base de datos
-              const deleteRef = ref(db, 'articulos/' + article.referencia);
-              remove(deleteRef);
+              };
+            };
+        
+        onValue(articlesRef, (snapshot) => {
+          // Obtiene todos los artículos
+          var articles = snapshot.val();
 
-              // Elimina la fila de la tabla
-              row.parentNode.removeChild(row);
-          });
+          // Obtiene una referencia a la tabla
+          var table = document.getElementById('articleTable');
+
+          // Limpia la tabla
+          while (table.rows.length > 1) {
+              table.deleteRow(1);
+          }
+
+          // Agrega una fila a la tabla para cada artículo
+          for (var key in articles) {
+              var article = articles[key];
+
+              // Crea una nueva fila en la tabla
+              var row = table.insertRow(-1);
+
+              // Crea las celdas en la fila y asigna los datos del artículo
+              row.insertCell(0).innerHTML = article.referencia;
+              row.insertCell(1).innerHTML = article.categoria;
+              row.insertCell(2).innerHTML = article.precio;
+              row.insertCell(3).innerHTML = article.color;
+              row.insertCell(4).innerHTML = article.talla;
+              row.insertCell(5).innerHTML = article.bodega;
+              row.insertCell(6).innerHTML = article.cantidad;
+
+            // Crea los botones de editar y eliminar
+            var botonEditar = document.createElement('button');
+            botonEditar.innerHTML = 'Editar';
+            botonEditar.className = 'button is-warning';
+
+            var botonEliminar = document.createElement('button');
+            botonEliminar.innerHTML = 'Eliminar';
+            botonEliminar.className = 'button is-danger';
+
+            // Agrega los botones a la última celda de la fila
+            var cell = row.insertCell(7);
+            cell.appendChild(botonEditar);
+            cell.appendChild(botonEliminar);
+
+            botonEditar.addEventListener('click', createUpdateHandler(article, row));
+            botonEliminar.addEventListener('click', createDeleteHandler(article, row));
         }
       });
         // Escucha el evento 'submit' del formulario
